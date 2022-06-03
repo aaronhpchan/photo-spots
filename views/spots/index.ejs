@@ -1,0 +1,8 @@
+<% layout('layouts/boilerplate') %>
+<h1>All Spots</h1>
+<div><a href="/spots/new">Add Spot</a></div>
+<ul>
+    <% for (let spot of spots) { %>
+    <li><a href="/spots/<%= spot._id %>"><%= spot.title %></a></li>
+    <% } %>
+</ul>

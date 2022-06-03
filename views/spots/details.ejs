@@ -1,0 +1,10 @@
+<% layout('layouts/boilerplate') %>
+<h1><%= spot.title %></h1>
+<p><%= spot.location %></p>
+<form action="/spots/<%= spot._id %>?_method=DELETE" method="POST">
+    <button>Delete</button>
+</form>
+<footer>
+    <a href="/spots/<%= spot._id %>/edit">Edit</a>
+    <a href="/spots">All Spots</a>
+</footer>
