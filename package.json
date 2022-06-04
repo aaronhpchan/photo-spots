@@ -1,10 +1,12 @@
 {
-  "name": "ig_spots",
+  "name": "photo_spots",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tailwindcss -i ./public/styles/input.css -o ./public/styles/main.css",
+    "watch": "tailwindcss -i ./public/styles/input.css -o ./public/styles/main.css --watch"
   },
   "keywords": [],
   "author": "",
@@ -15,5 +17,8 @@
     "express": "^4.18.1",
     "method-override": "^3.0.0",
     "mongoose": "^6.3.5"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.0.24"
   }
 }
