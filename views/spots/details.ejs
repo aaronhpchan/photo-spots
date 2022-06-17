@@ -1,10 +1,75 @@
 <% layout('layouts/boilerplate') %>
-<h1><%= spot.title %></h1>
-<p><%= spot.location %></p>
-<form action="/spots/<%= spot._id %>?_method=DELETE" method="POST">
-    <button>Delete</button>
-</form>
-<footer>
-    <a href="/spots/<%= spot._id %>/edit">Edit</a>
-    <a href="/spots">All Spots</a>
-</footer>
+<div class="grid grid-cols-2 gap-4">
+    <div class="rounded overflow-hidden shadow-lg">
+        <img class="w-full" src="<%= spot.image %>" alt="<%= spot.title %>">
+        <div class="px-6 py-4">
+            <div class="font-bold text-xl mb-2"><%= spot.title %></div>
+            <p class="text-gray-700 text-base"><%= spot.description %></p>
+            <p class="text-gray-700 text-base text-opacity-75"><%= spot.location %></p>
+        </div>
+        <div class="px-6 pt-4 pb-2">
+            <a href="/spots/<%= spot._id %>/edit"><button class="p-2 rounded text-white bg-cyan-500 hover:bg-cyan-600">Edit</button></a>
+            <a href="/spots/<%= spot._id %>/delete"><button class="p-2 rounded text-white bg-red-500 hover:bg-red-600 deletebtn">Delete</button></a>
+            <!-- <form action="/spots/<%= spot._id %>?_method=DELETE" method="POST">
+                <button>Delete</button>
+            </form> -->
+            <a href="/spots">All Spots</a>
+        </div>
+    </div>
+    <div>
+        <h2 class="font-bold text-xl mb-2">Leave a Comment</h2>
+        <form action="/spots/<%= spot._id %>/comments" method="POST" class="mb-3">
+            <div class="mb-3">
+                <label for="rating">Rating</label>
+                <input type="range" min="1" max="5" name="comment[rating]" id="rating">
+            </div>
+            <div class="mb-3">
+                <label for="body" class="block mb-1">Comment</label>
+                <textarea name="comment[body]" id="body" cols="30" rows="3"></textarea>
+            </div>
+            <button class="p-2 rounded text-white bg-green-500 hover:bg-green-600">Submit</button>
+        </form>
+        <% for (let comment of spot.comments) { %>
+        <div class="mb-3">    
+            <p>Rating: <%= comment.rating %></p>
+            <p>Comment: <%= comment.body %></p>
+            <form action="/spots/<%=spot._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                <button>Delete</button>
+            </form>
+        </div>
+        <% } %>
+    </div>
+</div>
+
+<!-- <div class="modal">
+    <span class="font-bold text-white cursor-pointer hover:text-gray-300 close">&times;</span>
+    <div class="bg-white modal-content">
+        <div class="p-4 text-center">
+            <p class="text-xl font-semibold mb-3">Are you sure you want to delete <%= spot.title %>?</p>   
+            <div class="clearfloat">
+                <button class="py-2 bg-slate-300 hover:bg-slate-400 cancelbtn">Cancel</button>
+                <form action="/spots/<%= spot._id %>?_method=DELETE" method="POST">
+                    <button class="py-2 text-white bg-red-500 hover:bg-red-600 deleteconfirm">Delete</button>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const deleteBtn = document.querySelector('.deletebtn');
+    const modal = document.querySelector('.modal');
+    const closeBtn = document.querySelector('.close');
+    const cancelBtn = document.querySelector('.cancelbtn');
+
+    deleteBtn.onclick = () => { modal.style.display = 'block'; } 
+    closeBtn.onclick = () => { modal.style.display = 'none'; }
+    cancelBtn.onclick = () => { modal.style.display = 'none'; }
+    window.onclick = e => e.target === modal && (modal.style.display = 'none');
+</script> -->
+    
+
+
+
+
