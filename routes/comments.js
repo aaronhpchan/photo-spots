@@ -22,6 +22,7 @@ router.post('/', validateComment, wrapAsync(async (req, res) => {
     spot.comments.push(comment);
     await comment.save();
     await spot.save();
+    req.flash('success', 'Comment successfully created!');
     res.redirect(`/spots/${spot._id}`);
 }));
 
@@ -29,6 +30,7 @@ router.delete('/:commentId', wrapAsync(async (req, res) => {
     const { id, commentId } = req.params;
     await Spot.findByIdAndUpdate(id, { $pull: { comments: commentId } }); //delete spot ObjectID which corresponds to the comment
     await Comment.findByIdAndDelete(commentId); 
+    req.flash('success', 'Comment successfully deleted!');
     res.redirect(`/spots/${id}`);
 }));
 
