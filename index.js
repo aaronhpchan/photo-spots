@@ -6,9 +6,13 @@ const ejsMate = require('ejs-mate');
 const session = require('express-session');
 const flash = require('connect-flash');
 const ExpressError = require('./utilities/ExpressError');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
 
-const spots = require('./routes/spots');
-const comments = require('./routes/comments');
+const userRoutes = require('./routes/users');
+const spotRoutes = require('./routes/spots');
+const commentRoutes = require('./routes/comments');
 
 mongoose.connect('mongodb://localhost:27017/ig-spots');
 
@@ -40,14 +44,23 @@ const sessionConfig = {
 app.use(session(sessionConfig))
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session()); //for persistent login sessions
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
+    res.locals.currentUser = req.user; //passport deserialises info from the session and fill in req.user with that data
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
 });
 
-app.use('/spots', spots);
-app.use('/spots/:id/comments', comments);
+app.use('/', userRoutes);
+app.use('/spots', spotRoutes);
+app.use('/spots/:id/comments', commentRoutes);
 
 app.get('/', (req, res) => {
     res.render('home');
