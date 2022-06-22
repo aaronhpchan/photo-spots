@@ -1,4 +1,6 @@
 <% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="/styles/starability.css">
+
 <div class="grid grid-cols-2 gap-4">
     <div class="rounded overflow-hidden shadow-lg">
         <img class="w-full" src="<%= spot.image %>" alt="<%= spot.title %>">
@@ -11,32 +13,46 @@
         <% if (currentUser && spot.author.equals(currentUser._id)) { %>
         <div class="px-6 pt-4 pb-2">
             <a href="/spots/<%= spot._id %>/edit"><button class="p-2 rounded text-white bg-cyan-500 hover:bg-cyan-600">Edit</button></a>
-            <a href="/spots/<%= spot._id %>/delete"><button class="p-2 rounded text-white bg-red-500 hover:bg-red-600 deletebtn">Delete</button></a>
+            <a href="/spots/<%= spot._id %>/delete"><button class="p-2 rounded text-white bg-red-500 hover:bg-red-600">Delete</button></a>
             <a href="/spots">All Spots</a>
         </div>
         <% } %>
     </div>
     <div>
         <h2 class="font-bold text-xl mb-2">Leave a Comment</h2>
-        <form action="/spots/<%= spot._id %>/comments" method="POST" class="mb-3">
+        <form action="/spots/<%= spot._id %>" method="POST" class="form mb-3">
             <div class="mb-3">
-                <label for="rating">Rating</label>
-                <input type="range" min="1" max="5" name="comment[rating]" id="rating">
+                <fieldset class="starability-heart">
+                    <legend class="mb-1">Rating</legend>
+                    <input type="radio" id="no-rate" class="input-no-rate" name="comment[rating]" value="0" checked aria-label="No rating." />
+                    <input type="radio" id="first-rate1" name="comment[rating]" value="1" />
+                    <label for="first-rate1" title="Terrible">1 star</label>
+                    <input type="radio" id="first-rate2" name="comment[rating]" value="2" />
+                    <label for="first-rate2" title="Not good">2 stars</label>
+                    <input type="radio" id="first-rate3" name="comment[rating]" value="3" />
+                    <label for="first-rate3" title="Average">3 stars</label>
+                    <input type="radio" id="first-rate4" name="comment[rating]" value="4" />
+                    <label for="first-rate4" title="Very good">4 stars</label>
+                    <input type="radio" id="first-rate5" name="comment[rating]" value="5" />
+                    <label for="first-rate5" title="Amazing">5 stars</label>               
+                </fieldset>
+                <small class="hidden text-red-700 star-error">Please provide rating from 1 to 5 stars</small>
             </div>
             <div class="mb-3">
                 <label for="body" class="block mb-1">Comment</label>
-                <textarea name="comment[body]" id="body" cols="30" rows="3"></textarea>
+                <textarea name="comment[body]" id="body" cols="30" rows="3" class="input w-full border-gray-300 rounded ring-red-400"></textarea>
+                <small class="hidden text-red-700">Please provide comment</small>
             </div>
-            <button class="p-2 rounded text-white bg-green-500 hover:bg-green-600">Submit</button>
+            <button class="mb-3 p-2 rounded text-white bg-green-500 hover:bg-green-600">Submit</button>
         </form>
         <% for (let comment of spot.comments) { %>
         <div class="mb-3">    
-            <p class="text-gray-700 text-base">Rating: <%= comment.rating %></p>
-            <p class="text-gray-700 text-base text-opacity-75">By <%= comment.author.username %></p>
+            <p class="text-gray-700 text-base font-semibold"><%= comment.author.username %></p>
+            <p class="starability-result" data-rating="<%= comment.rating %>">Rating: <%= comment.rating %> stars</p>
             <p class="text-gray-700 text-base">Comment: <%= comment.body %></p>
             <% if (currentUser && comment.author.equals(currentUser._id)) { %>
-            <form action="/spots/<%=spot._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
-                <button>Delete</button>
+            <form action="/spots/<%=spot._id%>/<%=comment._id%>?_method=DELETE" method="POST">
+                <button class="p-2 rounded text-white bg-red-500 hover:bg-red-600">Delete</button>
             </form>
             <% } %>
         </div>
