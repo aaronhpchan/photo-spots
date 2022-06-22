@@ -6,15 +6,15 @@
             <div class="font-bold text-xl mb-2"><%= spot.title %></div>
             <p class="text-gray-700 text-base"><%= spot.description %></p>
             <p class="text-gray-700 text-base text-opacity-75"><%= spot.location %></p>
+            <p class="text-gray-700 text-base">Submitted by <%= spot.author.username %></p>
         </div>
+        <% if (currentUser && spot.author.equals(currentUser._id)) { %>
         <div class="px-6 pt-4 pb-2">
             <a href="/spots/<%= spot._id %>/edit"><button class="p-2 rounded text-white bg-cyan-500 hover:bg-cyan-600">Edit</button></a>
             <a href="/spots/<%= spot._id %>/delete"><button class="p-2 rounded text-white bg-red-500 hover:bg-red-600 deletebtn">Delete</button></a>
-            <!-- <form action="/spots/<%= spot._id %>?_method=DELETE" method="POST">
-                <button>Delete</button>
-            </form> -->
             <a href="/spots">All Spots</a>
         </div>
+        <% } %>
     </div>
     <div>
         <h2 class="font-bold text-xl mb-2">Leave a Comment</h2>
@@ -31,43 +31,20 @@
         </form>
         <% for (let comment of spot.comments) { %>
         <div class="mb-3">    
-            <p>Rating: <%= comment.rating %></p>
-            <p>Comment: <%= comment.body %></p>
+            <p class="text-gray-700 text-base">Rating: <%= comment.rating %></p>
+            <p class="text-gray-700 text-base text-opacity-75">By <%= comment.author.username %></p>
+            <p class="text-gray-700 text-base">Comment: <%= comment.body %></p>
+            <% if (currentUser && comment.author.equals(currentUser._id)) { %>
             <form action="/spots/<%=spot._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
                 <button>Delete</button>
             </form>
+            <% } %>
         </div>
         <% } %>
     </div>
 </div>
 
-<!-- <div class="modal">
-    <span class="font-bold text-white cursor-pointer hover:text-gray-300 close">&times;</span>
-    <div class="bg-white modal-content">
-        <div class="p-4 text-center">
-            <p class="text-xl font-semibold mb-3">Are you sure you want to delete <%= spot.title %>?</p>   
-            <div class="clearfloat">
-                <button class="py-2 bg-slate-300 hover:bg-slate-400 cancelbtn">Cancel</button>
-                <form action="/spots/<%= spot._id %>?_method=DELETE" method="POST">
-                    <button class="py-2 text-white bg-red-500 hover:bg-red-600 deleteconfirm">Delete</button>
-                </form>
-            </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<script>
-    const deleteBtn = document.querySelector('.deletebtn');
-    const modal = document.querySelector('.modal');
-    const closeBtn = document.querySelector('.close');
-    const cancelBtn = document.querySelector('.cancelbtn');
-
-    deleteBtn.onclick = () => { modal.style.display = 'block'; } 
-    closeBtn.onclick = () => { modal.style.display = 'none'; }
-    cancelBtn.onclick = () => { modal.style.display = 'none'; }
-    window.onclick = e => e.target === modal && (modal.style.display = 'none');
-</script> -->
     
 
 

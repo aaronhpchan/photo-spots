@@ -7,6 +7,10 @@ const SpotSchema = new Schema({
     image: String,
     description: String,
     location: String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+    },
     comments: [
         {
             type: Schema.Types.ObjectId,
