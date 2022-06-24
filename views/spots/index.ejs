@@ -1,8 +1,15 @@
 <% layout('layouts/boilerplate') %>
-<h1>All Spots</h1>
+<h1 class="text-2xl font-semibold">All Spots</h1>
 <div><a href="/spots/new">Add Spot</a></div>
-<ul>
-    <% for (let spot of spots) { %>
-    <li><a href="/spots/<%= spot._id %>"><%= spot.title %></a></li>
-    <% } %>
-</ul>
+<div class="grid grid-cols-3 gap-2">
+<% for (let spot of spots) { %>
+    <div class="col-span-1 rounded overflow-hidden shadow-lg">
+        <% if(spot.images.length) { %>
+        <img class="w-full" src="<%= spot.images[0].url %>" alt="<%= spot.title %>">
+        <% } %>        
+        <h2 class="text-lg font-semibold"><%= spot.title %></h2>
+        <p><small><%= spot.location %></small></p>
+        <a href="/spots/<%= spot.id %>">View <%= spot.title %></a>
+    </div>
+<% } %>
+</div>

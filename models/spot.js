@@ -2,9 +2,18 @@ const mongoose = require('mongoose');
 const Comment = require('./comment');
 const Schema = mongoose.Schema;
 
+const ImageSchema = new Schema({
+    url: String,
+    filename: String
+});
+//add a virtual property called thumbnail
+ImageSchema.virtual('thumbnail').get(function () {
+    return this.url.replace('/upload', '/upload/w_200');
+});
+
 const SpotSchema = new Schema({
     title: String,
-    image: String,
+    images: [ImageSchema],
     description: String,
     location: String,
     author: {
