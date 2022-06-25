@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate') %>
+<div id="map" class="w-full" style="height: 500px"></div>
 <h1 class="text-2xl font-semibold">All Spots</h1>
 <div><a href="/spots/new">Add Spot</a></div>
 <div class="grid grid-cols-3 gap-2">
@@ -13,3 +14,9 @@
     </div>
 <% } %>
 </div>
+
+<script>
+    const mapBoxToken = '<%- process.env.MAPBOX_TOKEN %>';
+    const spots = { features: <%- JSON.stringify(spots) %> }; //mapbox expects an object with key of features set to an array
+</script>
+<script src="/js/clusterMap.js"></script>

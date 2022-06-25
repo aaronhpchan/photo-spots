@@ -37,6 +37,11 @@ const SpotSchema = new Schema({
             ref: 'Comment'
         }
     ]
+}, { toJSON: { virtuals: true } }); //by default, Mongoose does not include virtuals when converting a document to JSON
+
+//add a virtual property for GeoJSON
+SpotSchema.virtual('properties.popUpText').get(function () {
+    return `<a href="/spots/${this._id}" class="font-semibold text-blue-600 hover:text-blue-800 hover:underline" target="_blank">${this.title}</a>`;
 });
 
 //the findOneAndDelete middleware is triggered by the findByIdAndDelete function
