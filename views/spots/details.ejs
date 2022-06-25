@@ -3,6 +3,7 @@
 
 <div class="grid grid-cols-2 gap-4">
     <div class="rounded overflow-hidden shadow-lg">
+        <div id='map' style='width: 400px; height: 300px;'></div>
         <% spot.images.forEach((img, i) => { %>
         <img class="w-full" src="<%= img.url %>" alt="<%= spot.title %>">
         <% }) %>
@@ -10,7 +11,7 @@
         <div class="px-6 py-4">
             <div class="font-bold text-xl mb-2"><%= spot.title %></div>
             <p class="text-gray-700 text-base"><%= spot.description %></p>
-            <p class="text-gray-700 text-base text-opacity-75"><%= spot.location %></p>
+            <p class="text-gray-700/75 text-base"><%= spot.location %></p>
             <p class="text-gray-700 text-base">Submitted by <%= spot.author.username %></p>
         </div>
         <% if (currentUser && spot.author.equals(currentUser._id)) { %>
@@ -63,6 +64,11 @@
     </div>
 </div>
 
+<script>
+    const mapBoxToken = '<%- process.env.MAPBOX_TOKEN %>';
+    const spot = <%- JSON.stringify(spot) %>;
+</script>
+<script src="/js/renderMap.js"></script>
 
     
 
