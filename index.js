@@ -12,6 +12,8 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 
+const mongoSanitize = require('express-mongo-sanitize');
+
 const userRoutes = require('./routes/users');
 const spotRoutes = require('./routes/spots');
 const commentRoutes = require('./routes/comments');
@@ -32,6 +34,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(mongoSanitize()); //express-mongo-sanitize removes keys that contain prohibited characters e.g. $
 
 const sessionConfig = {
     secret: 'to_be_changed_into_env',
