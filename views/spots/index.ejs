@@ -1,16 +1,22 @@
 <% layout('layouts/boilerplate') %>
-<div id="map" class="w-full" style="height: 500px"></div>
-<h1 class="text-2xl font-semibold">All Spots</h1>
-<div><a href="/spots/new">Add Spot</a></div>
-<div class="grid grid-cols-3 gap-2">
+<div class="flex flex-col items-center mt-12 mb-10">
+    <h1 class="text-4xl font-bold mb-5">Discover and Share the Best Photo Spots.</h1>
+    <a href="/spots/new"><button class="px-3 py-2 rounded font-bold bg-gray-700 text-white hover:bg-gray-800">Add Spot</button></a>
+</div>
+<div id="cluster-map" class="w-full mb-5"></div>
+<div class="md:grid md:grid-cols-2 xl:grid-cols-3 gap-2">
 <% for (let spot of spots) { %>
     <div class="col-span-1 rounded overflow-hidden shadow-lg">
         <% if(spot.images.length) { %>
         <img class="w-full" src="<%= spot.images[0].url %>" alt="<%= spot.title %>">
-        <% } %>        
-        <h2 class="text-lg font-semibold"><%= spot.title %></h2>
-        <p><small><%= spot.location %></small></p>
-        <a href="/spots/<%= spot.id %>">View <%= spot.title %></a>
+        <% } %>
+        <div class="p-3">       
+            <div class="mb-3">
+                <h2 class="text-lg font-semibold"><%= spot.title %></h2>
+                <p class="text-sm"><%= spot.location %></p>
+            </div>
+            <a href="/spots/<%= spot.id %>" class="hover:underline underline-offset-4">&#8594; View <%= spot.title %></a>
+        </div> 
     </div>
 <% } %>
 </div>

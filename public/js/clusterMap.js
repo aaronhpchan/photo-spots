@@ -2,11 +2,14 @@
 
 mapboxgl.accessToken = mapBoxToken; // mapBoxToken variable comes from index.ejs file
 const map = new mapboxgl.Map({
-    container: 'map',
+    container: 'cluster-map',
     style: 'mapbox://styles/mapbox/dark-v10',
     center: [-98.4703457399514, 53.4604863996], // Manitoba, CA
     zoom: 3
 });
+
+// Add zoom and rotation controls to the map.
+map.addControl(new mapboxgl.NavigationControl());
  
 map.on('load', () => {
     // Add a new source and set the 'cluster' option to true. 

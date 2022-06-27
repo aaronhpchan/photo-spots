@@ -1,30 +1,34 @@
 <% layout('layouts/boilerplate') %>
 <link rel="stylesheet" href="/styles/starability.css">
 
-<div class="grid grid-cols-2 gap-4">
+<% spot.images.forEach((img, i) => { %>
+<img class="w-full" src="<%= img.url %>" alt="<%= spot.title %>">
+<% }) %>
+
+<div class="mt-10 md:grid grid-cols-2 gap-6">
     <div class="rounded overflow-hidden shadow-lg">
-        <div id='map' style='width: 400px; height: 300px;'></div>
-        <% spot.images.forEach((img, i) => { %>
-        <img class="w-full" src="<%= img.url %>" alt="<%= spot.title %>">
-        <% }) %>
-        <!-- <img class="w-full" src="<%= spot.image %>" alt="<%= spot.title %>"> -->
+        <div class="mb-2 text-center">
+            <h1 class="font-bold text-5xl mb-2"><%= spot.title %></h1>  
+            <p class="text-gray-700/75 text-base capitalize"><%= spot.location %></p>
+        </div>
+        <div id='map' class="w-full"></div>      
         <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2"><%= spot.title %></div>
-            <p class="text-gray-700 text-base"><%= spot.description %></p>
-            <p class="text-gray-700/75 text-base"><%= spot.location %></p>
-            <p class="text-gray-700 text-base">Submitted by <%= spot.author.username %></p>
+            <p class="mb-2 text-center text-gray-700 text-base">Submitted by <%= spot.author.username %></p>
+            <p class="font-semibold uppercase">Location:</p>
+            <p class="text-gray-700 text-base capitalize"><%= spot.location %></p>
+            <p class="font-semibold uppercase mt-1">Description:</p>
+            <p class="text-gray-700 text-base"><%= spot.description %></p>          
         </div>
         <% if (currentUser && spot.author.equals(currentUser._id)) { %>
-        <div class="px-6 pt-4 pb-2">
-            <a href="/spots/<%= spot._id %>/edit"><button class="p-2 rounded text-white bg-cyan-500 hover:bg-cyan-600">Edit</button></a>
-            <a href="/spots/<%= spot._id %>/delete"><button class="p-2 rounded text-white bg-red-500 hover:bg-red-600">Delete</button></a>
-            <a href="/spots">All Spots</a>
+        <div class="px-6 pt-2 pb-4">
+            <a href="/spots/<%= spot._id %>/edit"><button class="px-5 py-2 rounded text-white bg-cyan-500 hover:bg-cyan-600">Edit</button></a>
+            <a href="/spots/<%= spot._id %>/delete"><button class="px-3 py-2 ml-1 rounded text-white bg-red-500 hover:bg-red-600">Delete</button></a>
         </div>
         <% } %>
     </div>
     <div>
-        <h2 class="font-bold text-xl mb-2">Leave a Comment</h2>
-        <form action="/spots/<%= spot._id %>" method="POST" class="form mb-3">
+        <h2 class="font-bold text-2xl text-center mb-2">Leave a Comment</h2>
+        <form action="/spots/<%= spot._id %>" method="POST" class="form my-3">
             <div class="mb-3">
                 <fieldset class="starability-heart">
                     <legend class="mb-1">Rating</legend>
@@ -44,24 +48,28 @@
             </div>
             <div class="mb-3">
                 <label for="body" class="block mb-1">Comment</label>
-                <textarea name="comment[body]" id="body" cols="30" rows="3" class="input w-full border-gray-300 rounded ring-red-400"></textarea>
+                <textarea name="comment[body]" id="body" rows="5" class="input w-full border-gray-300 rounded ring-red-400"></textarea>
                 <small class="hidden text-red-700">Please provide comment</small>
             </div>
-            <button class="mb-3 p-2 rounded text-white bg-green-500 hover:bg-green-600">Submit</button>
+            <button class="mb-3 px-3 py-2 rounded text-white bg-green-500 hover:bg-green-600">Submit</button>
         </form>
-        <% for (let comment of spot.comments) { %>
-        <div class="mb-3">    
-            <p class="text-gray-700 text-base font-semibold"><%= comment.author.username %></p>
-            <p class="starability-result" data-rating="<%= comment.rating %>">Rating: <%= comment.rating %> stars</p>
-            <p class="text-gray-700 text-base">Comment: <%= comment.body %></p>
-            <% if (currentUser && comment.author.equals(currentUser._id)) { %>
-            <form action="/spots/<%=spot._id%>/<%=comment._id%>?_method=DELETE" method="POST">
-                <button class="p-2 rounded text-white bg-red-500 hover:bg-red-600">Delete</button>
-            </form>
-            <% } %>
-        </div>
+        
+    </div>
+</div>
+<div class="mt-8">
+    <h2 class="font-bold text-2xl text-center mb-2">Comments</h2>
+    <% for (let comment of spot.comments) { %>
+    <div class="mb-3 px-6 w-9/12">    
+        <p class="text-gray-700 text-base font-semibold"><%= comment.author.username %></p>
+        <p class="starability-result" data-rating="<%= comment.rating %>">Rating: <%= comment.rating %> stars</p>
+        <p class="text-gray-700 text-base"><%= comment.body %></p>
+        <% if (currentUser && comment.author.equals(currentUser._id)) { %>
+        <form action="/spots/<%=spot._id%>/<%=comment._id%>?_method=DELETE" method="POST">
+            <button class="px-3 py-2 mt-1 rounded text-white bg-red-500 hover:bg-red-600">Delete</button>
+        </form>
         <% } %>
     </div>
+    <% } %>
 </div>
 
 <script>

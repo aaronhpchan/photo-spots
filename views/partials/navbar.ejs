@@ -1,16 +1,17 @@
-<nav class="relative container mx-auto p-6">
-    <div class="hidden md:flex items-center justify-between">
-        <div>Photo Spots</div>
-        <div class="flex space-x-6">
-            <a href="/">Home</a>
-            <a href="#">About</a>
-            <a href="/spots">Spots</a>
-            <% if(!currentUser) { %> 
-            <a href="/login">Login</a>
-            <a href="/register">Sign Up</a>
-            <% } else { %>
-            <a href="/logout">Logout</a>
-            <% } %>
-        </div>
+<nav class="mb-5 md:mb-auto px-7 pt-3 pb-2 text-center border-b border-gray-200">
+    <a href="/" class="md:float-left">
+        <img src="/images/camera-48x48.png" class="inline-block" alt="Logo">
+        <span class="text-xl font-bold text-gray-800">Photo Spots</span>
+    </a>
+    <div class="pt-2 md:float-right justify-center">
+        <a href="/" class="nav-link text-gray-700">Home</a>
+        <a href="/spots" class="nav-link text-gray-700">Spots</a>
+        <% if(!currentUser) { %> 
+        <a href="/login" class="nav-link text-gray-700">Login</a>
+        <a href="/register" class="nav-link text-gray-700">Sign Up</a>
+        <% } else { %>
+        <a href="/logout" class="nav-link text-gray-700">Logout</a>
+        <% } %>
     </div>
 </nav>
+

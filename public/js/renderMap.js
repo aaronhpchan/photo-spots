@@ -6,7 +6,10 @@ const map = new mapboxgl.Map({
     zoom: 9 // starting zoom
 });
 
-new mapboxgl.Marker({ color: 'rgb(239 68 68)' })
+// Add zoom and rotation controls to the map.
+map.addControl(new mapboxgl.NavigationControl());
+
+new mapboxgl.Marker({ color: 'rgb(168 85 247)' })
     .setLngLat(spot.geometry.coordinates)
     .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(`<h2 class="text-base font-semibold">${spot.title}</h2><p>${spot.location}<p>`)) // add popup
     .addTo(map);

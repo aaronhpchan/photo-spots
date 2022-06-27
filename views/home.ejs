@@ -4,9 +4,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="apple-touch-icon" sizes="128x128" href="/images/camera-96x96.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/camera-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/camera-16x16.png">
+    <title>Photo Spots</title>
 </head>
-<body>
-    <h1>Home IG Spots</h1>
+
+<body class="flex flex-col h-screen text-center text-white bg-black home-bg">
+    <nav class="mb-auto px-7 mt-5">
+        <a href="/" class="md:float-left text-xl font-bold">
+            <img src="/images/camera-48x48.png" class="inline-block" alt="Logo">
+            <span>Photo Spots</span>
+        </a>
+        <div class="pt-2 md:float-right justify-center">
+            <a href="/" class="nav-link nav-link-white">Home</a>
+            <a href="/spots" class="nav-link nav-link-white">Spots</a>
+            <% if(!currentUser) { %> 
+            <a href="/login" class="nav-link nav-link-white">Login</a>
+            <a href="/register" class="nav-link nav-link-white">Sign Up</a>
+            <% } else { %>
+            <a href="/logout" class="nav-link nav-link-white">Logout</a>
+            <% } %>
+        </div>
+    </nav>
+    
+    <div class="flex flex-col w-screen h-screen p-3 mx-auto cover-container">
+        <main class="px-3 mt-auto">
+            <h1 class="text-3xl font-bold">Photo Spots</h1>
+            <p class="mt-6 mb-7 text-xl font-light">Welcome to Photo Spots! <br> Discover the best places to take photos. <br> Share your photos to the world.</p>
+            <a href="/spots"><button class="px-3 py-2 rounded font-bold bg-white text-gray-700">Check It Out</button></a>
+        </main>
+
+        <footer class="mt-auto">
+            <p class="text-sm text-slate-300">Copyright &copy; 2022 Photo Spots</p>
+        </footer>
+    </div>
 </body>
 </html>
