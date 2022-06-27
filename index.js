@@ -19,8 +19,10 @@ const spotRoutes = require('./routes/spots');
 const commentRoutes = require('./routes/comments');
 
 const MongoDBStore = require('connect-mongo'); 
-mongoose.connect('mongodb://localhost:27017/ig-spots');
-//mongoose.connect(process.env.DB_URL);
+
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/ig-spots';
+
+mongoose.connect(dbUrl);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -38,17 +40,19 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize()); //express-mongo-sanitize removes keys that contain prohibited characters e.g. $
 
+const secret = process.env.SECRET || 'secret-backup';
+
 const store = MongoDBStore.create({
-    mongoUrl: 'mongodb://localhost:27017/ig-spots',
+    mongoUrl: dbUrl,
     touchAfter: 24 * 60 * 60, //time period in seconds
-    secret: 'to_be_changed_into_env'
+    secret
 });
 store.on('error', e => console.log('session store error', e))
 
 const sessionConfig = {
     store,
     name: 'session', //change default session name
-    secret: 'to_be_changed_into_env',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
