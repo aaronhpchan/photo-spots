@@ -18,7 +18,9 @@ const userRoutes = require('./routes/users');
 const spotRoutes = require('./routes/spots');
 const commentRoutes = require('./routes/comments');
 
+const MongoDBStore = require('connect-mongo'); 
 mongoose.connect('mongodb://localhost:27017/ig-spots');
+//mongoose.connect(process.env.DB_URL);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -36,17 +38,27 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize()); //express-mongo-sanitize removes keys that contain prohibited characters e.g. $
 
+const store = MongoDBStore.create({
+    mongoUrl: 'mongodb://localhost:27017/ig-spots',
+    touchAfter: 24 * 60 * 60, //time period in seconds
+    secret: 'to_be_changed_into_env'
+});
+store.on('error', e => console.log('session store error', e))
+
 const sessionConfig = {
+    store,
+    name: 'session', //change default session name
     secret: 'to_be_changed_into_env',
     resave: false,
     saveUninitialized: true,
     cookie: {
-        httpOnly: true,
-        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        httpOnly: true, //cookies are only accessible through http
+        //secure: true, //cookies can only be configured over https
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7, //time period in milliseconds
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
-}
-app.use(session(sessionConfig))
+};
+app.use(session(sessionConfig));
 app.use(flash());
 
 app.use(passport.initialize());
