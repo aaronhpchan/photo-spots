@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const wrapAsync = require('../utilities/wrapAsync');
 const spots = require('../controllers/spots');
-const Spot = require('../models/spot');
 const { isLoggedIn, isAuthor, validateSpot } = require('../middleware.js');
 const multer = require('multer');
 const { storage } = require('../cloudinary');

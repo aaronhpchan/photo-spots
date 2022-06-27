@@ -5,11 +5,11 @@ const Comment = require('./models/comment');
 
 module.exports.isLoggedIn = (req, res, next) => {
     const { id } = req.params;
-    if (!req.isAuthenticated()) {      
-        req.session.returnTo = (!req.query._method === 'DELETE' ? req.originalUrl : `/spots/${id}`); 
+    if (!req.isAuthenticated()) {       
+        req.session.returnTo = (req.query._method === 'DELETE' ? `/spots/${id}` : req.originalUrl); 
         req.flash('error', 'You must be logged in to access this feature.');
         return res.redirect('/login');
-    }
+    } 
     next();
 };
 
@@ -52,3 +52,4 @@ module.exports.validateComment = (req, res, next) => {
         next();
     }
 };
+

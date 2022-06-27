@@ -29,7 +29,7 @@ const SpotSchema = new Schema({
     location: String,
     author: {
         type: Schema.Types.ObjectId,
-        ref: 'user'
+        ref: 'User'
     },
     comments: [
         {

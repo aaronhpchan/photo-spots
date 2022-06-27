@@ -3,7 +3,6 @@ const router = express.Router();
 const passport = require('passport');
 const wrapAsync = require('../utilities/wrapAsync');
 const users = require('../controllers/users');
-const User = require('../models/user');
 
 router.get('/register', users.renderRegister);
 router.post('/register', wrapAsync(users.register));

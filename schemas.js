@@ -27,7 +27,7 @@ module.exports.spotSchema = Joi.object({
     spot: Joi.object({
         title: Joi.string().required().escapeHTML(),
         location: Joi.string().required().escapeHTML(),
-        image: Joi.required(),
+        //image: Joi.required(),
         description: Joi.string().required().escapeHTML()
     }).required(),
     deleteImages: Joi.array()

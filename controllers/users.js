@@ -34,7 +34,7 @@ module.exports.login = (req, res) => {
 module.exports.logout = (req, res, next) => {
     req.logout(e => {
         if (e) return next(e);
-        req.flash('success', 'You have successfully logged out.');
+        req.flash('success', 'You have successfully logged out.'); 
         res.redirect('/spots');
-    });   
+    }); 
 };
