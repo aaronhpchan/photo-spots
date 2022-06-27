@@ -2,7 +2,5 @@
 
 <div class="m-auto mb-3 w-1/3 p-2 bg-red-100 text-red-700" role="alert">
     <h1 class="break-words font-bold text-xl"><%= err.message %></h1>
-    <% if (process.env.NODE_ENV !== 'production') { %>
     <p class="break-words"><%= err.stack %></p>
-    <% } %>
 </div>
