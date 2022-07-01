@@ -7,18 +7,19 @@ module.exports.index = (req, res) => {
     let noMatch = null;
     if(req.query.search) {
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-        // get all spots from database
-        Spot.find({title: regex}, (err, matchSpots) => {
+        // get all matching spots from database
+        Spot.find({ title: regex }, (err, matchSpots) => {
            if(err) {
                console.log(err);
            } else {
               if(matchSpots.length < 1) {
-                  noMatch = 'No spots match that query, please try again.';
+                  noMatch = `Your search "${req.query.search}" did not match any spots. Please try again.`;
               }
               res.render('spots/index', { spots: matchSpots, noMatch: noMatch });
            }
         });
     } else {
+        // get all spots from database
         Spot.find({}, (err, allSpots) => {
            if(err){
                console.log(err);

@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/styles/starability.css">
 
 <div class="my-5 text-center">
-    <h1 class="font-bold text-5xl mb-3"><%= spot.title %></h1>  
+    <h1 class="font-bold text-5xl mb-4"><%= spot.title %></h1>  
     <p class="text-gray-700/75 text-base">Submitted by <%= spot.author.username %></p>
 </div>
 <% if (spot.images.length) { %>
@@ -21,7 +21,7 @@
 </div>
 <% } %>
 
-<div class="mt-10 md:grid grid-cols-2 gap-6">
+<div class="mt-5 md:mt-10 md:grid grid-cols-2 gap-6">
     <div class="rounded overflow-hidden shadow-lg">
         <div id='map' class="w-full"></div>      
         <div class="px-6 py-4">
@@ -69,16 +69,16 @@
 </div>
 <div class="mt-8">
     <% if (spot.comments.length) { %>
-    <h2 class="font-bold text-3xl text-center mb-2">Comments</h2>
+    <h2 class="font-bold text-3xl mb-2 md:ml-6">Comments</h2>
     <% } %>
     <% for (let comment of spot.comments) { %>
-    <div class="mb-3 px-6 w-9/12">    
+    <div class="my-3 md:px-6 md:w-8/12">    
         <p class="text-gray-700 text-base font-semibold"><%= comment.author.username %></p>
-        <p class="starability-result" data-rating="<%= comment.rating %>">Rating: <%= comment.rating %> stars</p>
+        <p class="starability-result my-1" data-rating="<%= comment.rating %>">Rating: <%= comment.rating %> stars</p>
         <p class="text-gray-700 text-base"><%= comment.body %></p>
         <% if (currentUser && comment.author.equals(currentUser._id)) { %>
         <form action="/spots/<%=spot._id%>/<%=comment._id%>?_method=DELETE" method="POST">
-            <button class="px-3 py-2 mt-1 rounded text-white bg-red-500 hover:bg-red-600">Delete</button>
+            <button class="px-3 py-2 mt-2 rounded text-white bg-red-500 hover:bg-red-600">Delete</button>
         </form>
         <% } %>
     </div>
