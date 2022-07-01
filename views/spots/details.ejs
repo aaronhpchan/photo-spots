@@ -1,19 +1,30 @@
 <% layout('layouts/boilerplate') %>
 <link rel="stylesheet" href="/styles/starability.css">
 
-<% spot.images.forEach((img, i) => { %>
-<img class="w-full" src="<%= img.url %>" alt="<%= spot.title %>">
-<% }) %>
+<div class="my-5 text-center">
+    <h1 class="font-bold text-5xl mb-3"><%= spot.title %></h1>  
+    <p class="text-gray-700/75 text-base">Submitted by <%= spot.author.username %></p>
+</div>
+<% if (spot.images.length) { %>
+<div class="grid place-items-center">
+    <div class="slider w-full overflow-hidden aspect-square md:aspect-video">
+        <% spot.images.forEach((img, i) => { %>
+        <div class="slide w-full aspect-square md:aspect-video">
+            <img class="w-full h-full object-cover" src="<%= img.url %>" alt="<%= spot.title %>">
+        </div>
+        <% }) %>
+        <% if (spot.images.length > 1) { %>
+        <button class="slider-btn btn-next bg-black/70"><span class="text-white">&#62;</span></button>
+        <button class="slider-btn btn-prev bg-black/70"><span class="text-white">&#60;</span></button>
+        <% } %>
+    </div>
+</div>
+<% } %>
 
 <div class="mt-10 md:grid grid-cols-2 gap-6">
     <div class="rounded overflow-hidden shadow-lg">
-        <div class="mb-2 text-center">
-            <h1 class="font-bold text-5xl mb-2"><%= spot.title %></h1>  
-            <p class="text-gray-700/75 text-base capitalize"><%= spot.location %></p>
-        </div>
         <div id='map' class="w-full"></div>      
         <div class="px-6 py-4">
-            <p class="mb-2 text-center text-gray-700 text-base">Submitted by <%= spot.author.username %></p>
             <p class="font-semibold uppercase">Location:</p>
             <p class="text-gray-700 text-base capitalize"><%= spot.location %></p>
             <p class="font-semibold uppercase mt-1">Description:</p>
@@ -26,7 +37,7 @@
         </div>
         <% } %>
     </div>
-    <div>
+    <div class="mt-5 md:mt-0">
         <h2 class="font-bold text-2xl text-center mb-2">Leave a Comment</h2>
         <form action="/spots/<%= spot._id %>" method="POST" class="form my-3">
             <div class="mb-3">
@@ -57,8 +68,8 @@
     </div>
 </div>
 <div class="mt-8">
-    <% if(spot.comments.length) { %>
-    <h2 class="font-bold text-2xl text-center mb-2">Comments</h2>
+    <% if (spot.comments.length) { %>
+    <h2 class="font-bold text-3xl text-center mb-2">Comments</h2>
     <% } %>
     <% for (let comment of spot.comments) { %>
     <div class="mb-3 px-6 w-9/12">    
@@ -78,7 +89,7 @@
     const mapBoxToken = '<%- process.env.MAPBOX_TOKEN %>';
     const spot = <%- JSON.stringify(spot) %>;
 </script>
-<script src="/js/renderMap.js"></script>
+<script src="/js/details.js"></script>
 
     
 

@@ -4,19 +4,17 @@
     <a href="/spots/new"><button class="px-3 py-2 rounded font-bold bg-gray-700 text-white hover:bg-gray-800">Add Spot</button></a>
 </div>
 <div id="cluster-map" class="w-full mb-5"></div>
-<div class="md:grid md:grid-cols-2 xl:grid-cols-3 gap-2">
+<div class="md:grid md:grid-cols-2 xl:grid-cols-3 gap-2 spots-grid">
 <% for (let spot of spots) { %>
-    <div class="col-span-1 rounded overflow-hidden shadow-lg mb-3">
+    <div class="col-span-1 rounded overflow-hidden shadow-lg mb-3 flex flex-col">
         <% if(spot.images.length) { %>
-        <img class="w-full" src="<%= spot.images[0].url %>" alt="<%= spot.title %>">
+        <img class="w-full object-cover spot-img" src="<%= spot.images[0].url %>" alt="<%= spot.title %>">
         <% } %>
         <div class="p-3">       
-            <div class="mb-3">
-                <h2 class="text-lg font-semibold"><%= spot.title %></h2>
-                <p class="text-sm"><%= spot.location %></p>
-            </div>
-            <a href="/spots/<%= spot.id %>" class="hover:underline underline-offset-4">&#8594; View <%= spot.title %></a>
+            <h2 class="text-lg font-semibold"><%= spot.title %></h2>
+            <p class="text-sm"><%= spot.location %></p>
         </div> 
+        <a href="/spots/<%= spot.id %>" class="mt-auto px-3 mb-3 hover:underline underline-offset-4">&#8594; View <%= spot.title %></a>
     </div>
 <% } %>
 </div>

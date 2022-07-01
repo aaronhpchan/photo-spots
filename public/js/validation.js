@@ -1,10 +1,10 @@
-/* client-side form validations */
+/* Client-side form validations */
 const form = document.querySelector('.form');
 const inputs = document.querySelectorAll('.input');
 const defaultStarInput = document.querySelector('input[name="comment[rating]"]');
 const starErrorMsg = document.querySelector('.star-error');
 
-if(form) {
+if (form) {
     form.onsubmit = event => {
         inputs.forEach(input => {           
             const errorMsg = input.parentElement.lastElementChild;
@@ -28,9 +28,11 @@ if(form) {
     }
 }
 
-/* handle closing alert messages */
+/* Handle closing alert messages */
 const alertMsg = document.querySelector('.alert');
 const closeAlert = document.querySelector('.close-alert');
 
 closeAlert && (closeAlert.onclick = () => { alertMsg.style.display = 'none' });
+
+
 
