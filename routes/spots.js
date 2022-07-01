@@ -7,7 +7,7 @@ const multer = require('multer');
 const { storage } = require('../cloudinary');
 const upload = multer({ storage });
 
-router.get('/', wrapAsync(spots.index));
+router.get('/', spots.index);
 
 router.get('/new', isLoggedIn, spots.renderNewForm);
 router.post('/', isLoggedIn, upload.array('image'), validateSpot, wrapAsync(spots.createSpot)); 

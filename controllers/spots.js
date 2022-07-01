@@ -3,9 +3,34 @@ const { cloudinary } = require('../cloudinary');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const geocoder = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
 
-module.exports.index = async (req, res) => {
-    const spots = await Spot.find({});
-    res.render('spots/index', { spots });
+module.exports.index = (req, res) => {
+    let noMatch = null;
+    if(req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        // get all spots from database
+        Spot.find({title: regex}, (err, matchSpots) => {
+           if(err) {
+               console.log(err);
+           } else {
+              if(matchSpots.length < 1) {
+                  noMatch = 'No spots match that query, please try again.';
+              }
+              res.render('spots/index', { spots: matchSpots, noMatch: noMatch });
+           }
+        });
+    } else {
+        Spot.find({}, (err, allSpots) => {
+           if(err){
+               console.log(err);
+           } else {
+              res.render('spots/index', { spots: allSpots, noMatch: noMatch });
+           }
+        });
+    }
+
+    function escapeRegex(text) {
+        return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+    }
 };
 
 module.exports.renderNewForm = (req, res) => {
